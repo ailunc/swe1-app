@@ -1,0 +1,22 @@
+{% extends 'polls/base.html' %}
+{% block title %}{{ question.question_text }} | Polls{% endblock %}
+{% block content %}
+<h1>{{ question.question_text }}</h1>
+<form action="{% url 'polls:vote' question.id %}" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend>Choose one answer</legend>
+    {% if error_message %}<p class="error" role="alert">{{ error_message }}</p>{% endif %}
+    {% for choice in question.choice_set.all %}
+      <label class="choice" for="choice{{ forloop.counter }}">
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        {{ choice.choice_text }}
+      </label>
+    {% empty %}
+      <p>This poll has no choices yet.</p>
+    {% endfor %}
+  </fieldset>
+  {% if question.choice_set.exists %}<button type="submit">Vote</button>{% endif %}
+</form>
+<p><a href="{% url 'polls:results' question.id %}">View results</a> · <a href="{% url 'polls:index' %}">All polls</a></p>
+{% endblock %}

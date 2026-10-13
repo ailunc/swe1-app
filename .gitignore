@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.sqlite3-*
+.env
+.env.*
+!.env.example
+staticfiles/
+dist/
+.DS_Store
+.superpowers/
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
