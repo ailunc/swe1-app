@@ -2,6 +2,13 @@
 
 A small Django polls application based on the official **Django 5.2 tutorial, Parts 1–4**. Visitors can choose a question, vote for an answer, and view the saved results. Django admin provides question and choice management.
 
+## Live application
+
+- [Open the polls application](http://swe1-app-ailunc.us-east-2.elasticbeanstalk.com/polls/)
+- [Personal GitHub repository](https://github.com/ailunc/swe1-app)
+
+Deployed on AWS Elastic Beanstalk with Python 3.13 and a private RDS PostgreSQL database. Anonymous access, voting, saved results and static assets were verified on October 13, 2026. Use the HTTP URL shown above; HTTPS is not configured for the default environment hostname.
+
 ## Run locally
 
 Python 3.10 or newer is required; Python 3.13 is used for local verification.
