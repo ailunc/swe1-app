@@ -1,0 +1,42 @@
+language: python
+os: linux
+dist: jammy
+python:
+  - "3.13"
+
+cache: pip
+
+install:
+  - python -m pip install -r requirements-dev.txt
+
+script:
+  - python -m black --check .
+  - python -m flake8 .
+  - python manage.py check
+  - python manage.py makemigrations --check --dry-run
+  - python -m coverage run manage.py test --noinput
+  - python -m coverage report
+  - coveralls --service=travis-pro
+
+before_deploy:
+  - git archive --format=zip HEAD -o /tmp/swe1-app.zip
+
+deploy:
+  provider: elasticbeanstalk
+  edge: true
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  region: us-east-2
+  app: swe1-app
+  env: swe1-app-env
+  bucket: swe1-app-ailunc-619648596475-us-east-2
+  bucket_path: travis
+  zip_file: /tmp/swe1-app.zip
+  wait_until_deployed: true
+  wait_until_deployed_timeout: 900
+  on:
+    repo: ailunc/swe1-app
+    branch: main
+
+notifications:
+  email: false
