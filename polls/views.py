@@ -32,10 +32,14 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, ValueError, Choice.DoesNotExist):
-        return render(request, "polls/detail.html", {
-            "question": question,
-            "error_message": "You didn't select a choice.",
-        })
+        return render(
+            request,
+            "polls/detail.html",
+            {
+                "question": question,
+                "error_message": "You didn't select a choice.",
+            },
+        )
 
     # Update in the database so simultaneous votes do not overwrite each other.
     selected_choice.votes = F("votes") + 1

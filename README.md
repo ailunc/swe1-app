@@ -1,5 +1,8 @@
 # swe1-app
 
+[![Build status](https://app.travis-ci.com/ailunc/swe1-app.svg?branch=main)](https://app.travis-ci.com/github/ailunc/swe1-app)
+[![Coverage Status](https://coveralls.io/repos/github/ailunc/swe1-app/badge.svg?branch=main)](https://coveralls.io/github/ailunc/swe1-app?branch=main)
+
 A small Django polls application based on the official **Django 5.2 tutorial, Parts 1–4**. Visitors can choose a question, vote for an answer, and view the saved results. Django admin provides question and choice management.
 
 ## Live application
@@ -35,13 +38,27 @@ Then open <http://127.0.0.1:8000/admin/>. When creating a choice, select the que
 ## Verify
 
 ```bash
-python manage.py test
+python -m pip install -r requirements-dev.txt
+python -m black --check .
+python -m flake8 .
+python -m coverage run manage.py test --noinput
+python -m coverage report
 python manage.py check
 python manage.py makemigrations --check --dry-run
 python manage.py collectstatic --noinput
 ```
 
 Tests cover listing, question links, voting, results, invalid selections, missing questions, CSRF enforcement, sample-data preservation, and required production configuration.
+
+## Continuous integration
+
+[Travis build history](https://app.travis-ci.com/github/ailunc/swe1-app) · [Coveralls reports](https://coveralls.io/github/ailunc/swe1-app)
+
+`.travis.yml` runs Black, flake8, Django checks, and the test suite under coverage.py for pushes and pull requests. A formatting, lint, or test failure fails the build. The coverage report is uploaded to Coveralls. There is no minimum coverage percentage for this assignment.
+
+Successful builds on `main` deploy to the existing `swe1-app-env` environment in `us-east-2`. Pull requests and other branches run the checks without deploying. The deployment ZIP contains only committed files, and Travis waits for Elastic Beanstalk to finish updating. AWS deployment credentials belong in Travis repository settings as hidden, main-only environment variables; database credentials remain in Elastic Beanstalk.
+
+To fix formatting locally, run `python -m black .`, then rerun the checks above. Black and flake8 both use an 88-character line limit.
 
 ## Project layout
 
@@ -86,7 +103,13 @@ The default EB hostname may provide HTTP only. Submit the scheme that actually w
 
 ## Assignment submission
 
-Submit both the working AWS `/polls/` URL and the personal GitHub `swe1-app` repository URL on Brightspace. Keep the application available until the course team finishes grading. The actual deployed URL must come from the created environment, not from this README's examples.
+For the CI assignment, submit these three URLs on Brightspace:
+
+- [Travis dashboard](https://app.travis-ci.com/github/ailunc/swe1-app)
+- [Deployed polls application](http://swe1-app-ailunc.us-east-2.elasticbeanstalk.com/polls/)
+- [GitHub repository](https://github.com/ailunc/swe1-app)
+
+Keep the application available until the course team finishes grading. The actual deployed URL must come from the created environment, not from this README's examples.
 
 ## References
 

@@ -13,3 +13,7 @@ dist/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
